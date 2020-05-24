@@ -29,7 +29,8 @@ tmp-home:
 
 .PHONY: up
 up: tmp-home
-	$(call docker) go run ./main.go
+	(docker container ls | grep ${CONTAINER_NAME}) \
+		|| $(call docker) go run ./main.go
 
 .PHONY: bash
 bash: tmp-home
@@ -38,4 +39,4 @@ bash: tmp-home
 .PHONY: clean
 clean:
 	rm -rf ${TMP_HOME}
-	docker container stop
+	docker container stop ${CONTAINER_NAME} || echo ok
