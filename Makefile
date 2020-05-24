@@ -1,5 +1,6 @@
 export ANSIBLE_IP=192.168.5.123
 export WEB1_IP=192.168.5.11
+export WEB2_IP=192.168.5.12
 export LB1_IP=192.168.5.99
 
 ################################################################################
@@ -29,6 +30,8 @@ lb1: chmod
 	ssh $(call ssh-option,LB1,${LB1_IP})
 web1: chmod
 	ssh $(call ssh-option,web1,${WEB1_IP})
+web2: chmod
+	ssh $(call ssh-option,web2,${WEB2_IP})
 
 ################################################################################
 # Ansible
@@ -46,12 +49,22 @@ setup-lb: chmod
 setup-web: chmod
 	ssh $(call ssh-option,web1,${WEB1_IP}) \
 		"cd web && make setup-full"
+	ssh $(call ssh-option,web2,${WEB2_IP}) \
+		"cd web && make setup-full"
+
+up-web: chmod
+	ssh $(call ssh-option,web1,${WEB1_IP}) \
+		"cd web && make up"
+	ssh $(call ssh-option,web2,${WEB2_IP}) \
+		"cd web && make up"
 
 clean-lb: chmod
 	ssh $(call ssh-option,lb1,${LB1_IP}) \
 		"cd lb && make clean"
 clean-web: chmod
 	ssh $(call ssh-option,web1,${WEB1_IP}) \
+		"cd web && make clean"
+	ssh $(call ssh-option,web2,${WEB2_IP}) \
 		"cd web && make clean"
 
 setup-full: chmod

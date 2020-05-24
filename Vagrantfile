@@ -8,6 +8,7 @@ VAGRANT_BOX_DEFAULT = VAGRANT_BOX_UBUNTU
 vm_specs = [
   { name: 'lb1',  ip: '192.168.5.99', cpus: 1, memory: 512*2, sync_dir: 'lb' },
   { name: 'web1', ip: '192.168.5.11', cpus: 1, memory: 512*2, sync_dir: 'web' },
+  { name: 'web2', ip: '192.168.5.12', cpus: 1, memory: 512*2, sync_dir: 'web' },
 ]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
