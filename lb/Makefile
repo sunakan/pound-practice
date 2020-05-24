@@ -18,6 +18,7 @@ define docker
 		--mount type=bind,source=${PWD}/etc-default-pound,target=/etc/default/pound,readonly \
 		--add-host web1:${WEB1_IP} \
 		--add-host web2:${WEB2_IP} \
+		--entrypoint "" \
 		${DOCKER_REPOSITORY}:dev-latest
 endef
 
@@ -34,7 +35,7 @@ bash:
 .PHONY: up
 up:
 	( docker container ls | grep ${CONTAINER_NAME} ) \
-		|| $(call docker) /etc/init.d/pound start
+		|| $(call docker) /etc/init.d/pound start && bash
 
 .PHONY: clean
 clean:
